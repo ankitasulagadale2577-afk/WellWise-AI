@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # WellWise AI – React frontend
 
 Vite + React 18 + React Router. Light-mode UI.
@@ -25,3 +26,7 @@ Put photos in `src/assets/` and import them, e.g. `import hero from '../assets/h
 - `Login.jsx` → Supabase Auth
 - `ans()` in `src/store.js` → your AI API
 - WhatsApp Cloud API → server webhook
+=======
+# WellWise-AI
+WellWise AI is an AI-powered healthcare platform offering health assistance, voice interaction, digital health records, medicine reminders, vaccination tracking, nearby hospitals, emergency support, and multilingual access. Built with React and Supabase, it aims to make healthcare smarter, simpler, and accessible for everyone.
+>>>>>>> 4306d5f65438e9952cb8303148ec97909299006b
