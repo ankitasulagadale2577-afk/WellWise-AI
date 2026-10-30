@@ -26,7 +26,7 @@ import loginIllustration from "../assets/login_illustration.png";
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { login, loginWithOAuth, signUp, resetPassword } = useAuth();
+  const { login, loginWithOAuth, loginAsDemo, signUp, resetPassword } = useAuth();
   const { language, setLanguage } = useLanguage();
 
   const isSignUpInitial = new URLSearchParams(location.search).get("signup") === "true";
@@ -76,7 +76,12 @@ export default function LoginPage() {
       setSubmitting(false);
       if (res.success) {
         setLanguage(prefLang);
-        navigate("/dashboard", { replace: true });
+        if (res.emailConfirmationPending) {
+          setSuccess("Account created successfully! Loading your dashboard...");
+          setTimeout(() => navigate("/dashboard", { replace: true }), 600);
+        } else {
+          navigate("/dashboard", { replace: true });
+        }
       } else {
         setError(res.error || "Failed to create account.");
       }
@@ -84,7 +89,12 @@ export default function LoginPage() {
       const res = await login(email.trim(), password);
       setSubmitting(false);
       if (res.success) {
-        navigate("/dashboard", { replace: true });
+        if (res.emailConfirmationPending) {
+          setSuccess("Signed in! Loading your dashboard...");
+          setTimeout(() => navigate("/dashboard", { replace: true }), 600);
+        } else {
+          navigate("/dashboard", { replace: true });
+        }
       } else {
         setError(res.error || "Invalid email or password.");
       }
@@ -427,6 +437,21 @@ export default function LoginPage() {
                   </button>
                 </p>
               )}
+            </div>
+
+            {/* Quick Demo Access Button */}
+            <div className="demo-login-shortcut">
+              <button
+                type="button"
+                className="demo-shortcut-btn"
+                onClick={async () => {
+                  setSubmitting(true);
+                  await loginAsDemo();
+                  navigate("/dashboard", { replace: true });
+                }}
+              >
+                ⚡ Explore with Demo Account (Instant Access)
+              </button>
             </div>
 
             {/* Bottom Security / Trust Notice */}

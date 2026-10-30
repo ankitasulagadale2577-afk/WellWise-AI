@@ -3284,6 +3284,30 @@
   text-decoration: underline;
 }
 
+.demo-login-shortcut {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.demo-shortcut-btn {
+  background: rgba(7, 155, 104, 0.08);
+  border: 1px dashed rgba(7, 155, 104, 0.35);
+  color: var(--primary-green);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 9px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.demo-shortcut-btn:hover {
+  background: var(--soft-mint);
+  border-color: var(--primary-green);
+  transform: translateY(-1px);
+}
+
 .auth-trust-box {
   display: flex;
   align-items: center;

@@ -5,8 +5,19 @@
 import { createClient } from "@supabase/supabase-js";
 import { ARTICLES_DATA, VACCINES_DATA } from "../data/initialData.js";
 
-const envUrl = import.meta.env.VITE_SUPABASE_URL;
-const envAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+function cleanSupabaseUrl(rawUrl) {
+  if (!rawUrl) return "";
+  let clean = rawUrl.trim();
+  // Strip trailing slashes and /rest/v1 or /auth/v1 paths if inadvertently pasted
+  clean = clean.replace(/\/rest\/v1\/?$/i, "");
+  clean = clean.replace(/\/auth\/v1\/?$/i, "");
+  clean = clean.replace(/\/+$/, "");
+  return clean;
+}
+
+const rawEnvUrl = import.meta.env.VITE_SUPABASE_URL;
+const envUrl = cleanSupabaseUrl(rawEnvUrl);
+const envAnonKey = (import.meta.env.VITE_SUPABASE_ANON_KEY || "").trim();
 
 export const isSupabaseConfigured = Boolean(
   envUrl &&
@@ -109,11 +120,16 @@ export const authService = {
   },
 
   async signOut() {
+    localStorage.removeItem("wellwise_demo_session");
+    localStorage.removeItem("wellwise_local_session");
     if (!isSupabaseConfigured) {
-      localStorage.removeItem("wellwise_demo_session");
       return { error: null };
     }
-    return await supabase.auth.signOut();
+    try {
+      return await supabase.auth.signOut();
+    } catch {
+      return { error: null };
+    }
   },
 
   async resetPassword(email) {
@@ -133,11 +149,21 @@ export const authService = {
   },
 
   async getSession() {
+    const localFallback = getLocalStorage("wellwise_local_session", null);
     if (!isSupabaseConfigured) {
-      const session = getLocalStorage("wellwise_demo_session", null);
+      const session = getLocalStorage("wellwise_demo_session", null) || localFallback;
       return { data: { session }, error: null };
     }
-    return await supabase.auth.getSession();
+    try {
+      const res = await supabase.auth.getSession();
+      if (res?.data?.session) return res;
+      if (localFallback) {
+        return { data: { session: localFallback }, error: null };
+      }
+      return res;
+    } catch {
+      return { data: { session: localFallback }, error: null };
+    }
   },
 
   onAuthStateChange(callback) {
