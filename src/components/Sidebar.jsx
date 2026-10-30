@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
   Home,
@@ -32,6 +33,22 @@ export default function Sidebar({
 }) {
   const { t } = useLanguage();
   const { logout } = useAuth();
+
+  // Accordion state to fold/unfold each section
+  const [openSections, setOpenSections] = useState({
+    CARE: true,
+    "MY HEALTH": true,
+    "FIND HELP": true,
+    "LEARN & CONNECT": true,
+    ACCOUNT: true,
+  });
+
+  const toggleSection = (group) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [group]: !prev[group],
+    }));
+  };
 
   const sections = [
     {
@@ -113,31 +130,45 @@ export default function Sidebar({
             <span>Dashboard</span>
           </NavLink>
 
-          {/* Grouped Navigation Sections */}
-          {sections.map((sec) => (
-            <div key={sec.group} className="sidebar-section">
-              <div className="sidebar-group-header">
-                <span>{sec.group}</span>
-                <ChevronDown size={14} className="group-chevron" />
+          {/* Grouped Navigation Sections (Foldable Accordions) */}
+          {sections.map((sec) => {
+            const isOpen = openSections[sec.group] !== false;
+            return (
+              <div key={sec.group} className="sidebar-section">
+                <button
+                  type="button"
+                  className="sidebar-group-header sidebar-group-header-btn"
+                  onClick={() => toggleSection(sec.group)}
+                  title={isOpen ? `Fold ${sec.group}` : `Expand ${sec.group}`}
+                  aria-expanded={isOpen}
+                >
+                  <span>{sec.group}</span>
+                  <ChevronDown
+                    size={14}
+                    className={`group-chevron ${isOpen ? "open" : "folded"}`}
+                  />
+                </button>
+                {isOpen && (
+                  <div className="sidebar-group-items">
+                    {sec.items.map(({ label, path, icon: Icon }) => (
+                      <NavLink
+                        key={path}
+                        to={path}
+                        title={collapsed ? label : undefined}
+                        onClick={() => setMobileOpen(false)}
+                        className={({ isActive }) =>
+                          `sidebar-link ${isActive ? "active" : ""}`
+                        }
+                      >
+                        <Icon size={18} />
+                        <span>{label}</span>
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
               </div>
-              <div className="sidebar-group-items">
-                {sec.items.map(({ label, path, icon: Icon }) => (
-                  <NavLink
-                    key={path}
-                    to={path}
-                    title={collapsed ? label : undefined}
-                    onClick={() => setMobileOpen(false)}
-                    className={({ isActive }) =>
-                      `sidebar-link ${isActive ? "active" : ""}`
-                    }
-                  >
-                    <Icon size={18} />
-                    <span>{label}</span>
-                  </NavLink>
-                ))}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </nav>
 
         {/* Footer controls: Collapse & Logout */}

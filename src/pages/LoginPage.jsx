@@ -21,6 +21,7 @@ import {
 import Brand from "../components/Brand.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useLanguage, LANGUAGES } from "../context/LanguageContext.jsx";
+import loginIllustration from "../assets/login_illustration.png";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -128,146 +129,87 @@ export default function LoginPage() {
             </p>
           </div>
 
-          {/* 6 Feature Badges in 2-Column Grid */}
+          {/* 6 Feature Badges in 2-Column Grid (Matches Reference Layout Exactly) */}
           <div className="login-features-2col">
-            <div className="login-feat-item">
-              <div className="login-feat-icon">
-                <MessageSquare size={17} />
+            {/* Column 1 */}
+            <div className="login-features-subcol">
+              <div className="login-feat-item">
+                <div className="login-feat-icon icon-green">
+                  <MessageSquare size={16} />
+                </div>
+                <div>
+                  <strong>AI Health Assistant</strong>
+                  <small>Ask · Learn · Get Help</small>
+                </div>
               </div>
-              <div>
-                <strong>AI Health Assistant</strong>
-                <small>Ask • Learn • Get Help</small>
+
+              <div className="login-feat-item">
+                <div className="login-feat-icon icon-green">
+                  <Syringe size={16} />
+                </div>
+                <div>
+                  <strong>Vaccination Info</strong>
+                  <small>Stay Protected</small>
+                </div>
+              </div>
+
+              <div className="login-feat-item">
+                <div className="login-feat-icon icon-green">
+                  <Phone size={16} />
+                </div>
+                <div>
+                  <strong>Emergency Assistance</strong>
+                  <small>Be Prepared</small>
+                </div>
               </div>
             </div>
 
-            <div className="login-feat-item">
-              <div className="login-feat-icon">
-                <Mic size={17} />
+            {/* Column 2 */}
+            <div className="login-features-subcol">
+              <div className="login-feat-item">
+                <div className="login-feat-icon icon-green">
+                  <Mic size={16} />
+                </div>
+                <div>
+                  <strong>Voice Assistant</strong>
+                  <small>Speak · Listen · Get Answers</small>
+                </div>
               </div>
-              <div>
-                <strong>Voice Assistant</strong>
-                <small>Speak • Listen • Get Answers</small>
-              </div>
-            </div>
 
-            <div className="login-feat-item">
-              <div className="login-feat-icon">
-                <Syringe size={17} />
+              <div className="login-feat-item">
+                <div className="login-feat-icon icon-blue">
+                  <Hospital size={16} />
+                </div>
+                <div>
+                  <strong>Nearby Hospitals</strong>
+                  <small>Find Care Near You</small>
+                </div>
               </div>
-              <div>
-                <strong>Vaccination Info</strong>
-                <small>Stay Protected</small>
-              </div>
-            </div>
 
-            <div className="login-feat-item">
-              <div className="login-feat-icon">
-                <Hospital size={17} />
-              </div>
-              <div>
-                <strong>Nearby Hospitals</strong>
-                <small>Find Care Near You</small>
-              </div>
-            </div>
-
-            <div className="login-feat-item">
-              <div className="login-feat-icon">
-                <Phone size={17} />
-              </div>
-              <div>
-                <strong>Emergency Assistance</strong>
-                <small>Be Prepared</small>
-              </div>
-            </div>
-
-            <div className="login-feat-item">
-              <div className="login-feat-icon">
-                <BookOpen size={17} />
-              </div>
-              <div>
-                <strong>Health Library</strong>
-                <small>Trusted Health Knowledge</small>
+              <div className="login-feat-item">
+                <div className="login-feat-icon icon-green">
+                  <BookOpen size={16} />
+                </div>
+                <div>
+                  <strong>Health Library</strong>
+                  <small>Trusted Health Knowledge</small>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Whimsical Handwritten Tagline */}
+          {/* Whimsical Handwritten Tagline (Matches Reference) */}
           <div className="handwritten-tagline">
-            <span>Good Health Builds a Brighter Future</span>
-            <svg viewBox="0 0 160 12" fill="none" className="underline-wave">
-              <path
-                d="M2 9C40 2 120 1 158 8"
-                stroke="#079B68"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              />
-            </svg>
+            <span className="script-font">Good Health <br />Builds a Brighter Future</span>
           </div>
 
-          {/* Vector Illustration: Girl with Laptop & Friendly Medical AI Robot */}
+          {/* Authentic Healthcare User with AI Companion Illustration */}
           <div className="login-illustration-stage">
-            <div className="speech-bubble bubble-green">How can I help you today?</div>
-            <div className="speech-bubble bubble-cyan">मराठी</div>
-            <div className="speech-bubble bubble-blue">English</div>
-
-            <svg viewBox="0 0 460 220" className="health-bot-svg" fill="none">
-              {/* Desk & Plant */}
-              <ellipse cx="230" cy="205" rx="210" ry="14" fill="#E8F7EF" />
-              <rect x="25" y="155" width="22" height="35" rx="4" fill="#6DA28F" />
-              <ellipse cx="36" cy="145" rx="14" ry="20" fill="#079B68" />
-              <ellipse cx="24" cy="148" rx="12" ry="16" fill="#0AA670" />
-              <ellipse cx="46" cy="148" rx="12" ry="16" fill="#104B50" />
-
-              {/* Stack of books */}
-              <rect x="58" y="175" width="45" height="8" rx="2" fill="#507B83" />
-              <rect x="55" y="166" width="50" height="9" rx="2" fill="#079B68" />
-
-              {/* Girl User with Laptop */}
-              <g transform="translate(100, 45)">
-                {/* Hair back */}
-                <path d="M40 30 C30 10 70 0 85 20 C95 40 95 85 85 105 C70 95 50 85 40 30 Z" fill="#202A37" />
-                {/* Face & Neck */}
-                <ellipse cx="62" cy="46" rx="18" ry="22" fill="#FDDEC3" />
-                <path d="M56 65 L56 80 L68 80 L68 65 Z" fill="#F4C7A5" />
-                {/* Hair front */}
-                <path d="M45 35 C55 25 78 28 80 40 C72 36 60 38 52 48 Z" fill="#202A37" />
-                {/* Eyes & Smile */}
-                <circle cx="68" cy="45" r="2.5" fill="#202A37" />
-                <path d="M64 54 Q69 58 74 54" stroke="#D97706" strokeWidth="1.8" strokeLinecap="round" fill="none" />
-                {/* Torso & Green Sweater */}
-                <path d="M38 80 C48 74 76 74 86 80 L96 150 L28 150 Z" fill="#079B68" />
-                {/* Arm & Hands on Laptop */}
-                <path d="M80 95 L115 130 L100 135 Z" fill="#058257" />
-                <ellipse cx="116" cy="132" rx="6" ry="4" fill="#FDDEC3" />
-                {/* Laptop */}
-                <polygon points="105,142 165,142 155,108 115,108" fill="#CBD5E1" />
-                <polygon points="98,144 172,144 165,142 105,142" fill="#94A3B8" />
-                <circle cx="135" cy="125" r="4" fill="#079B68" />
-              </g>
-
-              {/* Cute Medical AI Robot */}
-              <g transform="translate(290, 70)">
-                {/* Bot Head */}
-                <rect x="25" y="10" width="70" height="52" rx="26" fill="#FFFFFF" stroke="#D1EADE" strokeWidth="3" />
-                {/* Screen Face */}
-                <rect x="34" y="18" width="52" height="34" rx="17" fill="#104B50" />
-                {/* Glowing Blue Eyes & Smile */}
-                <ellipse cx="50" cy="33" rx="4" ry="5" fill="#38BDF8" />
-                <ellipse cx="70" cy="33" rx="4" ry="5" fill="#38BDF8" />
-                <path d="M56 42 Q60 46 64 42" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" fill="none" />
-                {/* Bot Antenna */}
-                <line x1="60" y1="10" x2="60" y2="0" stroke="#079B68" strokeWidth="3" strokeLinecap="round" />
-                <circle cx="60" cy="-2" r="4" fill="#079B68" />
-                {/* Bot Body */}
-                <rect x="32" y="66" width="56" height="58" rx="20" fill="#FFFFFF" stroke="#D1EADE" strokeWidth="3" />
-                {/* Medical Cross on Chest */}
-                <circle cx="60" cy="94" r="14" fill="#E8F7EF" />
-                <path d="M60 87 L60 101 M53 94 L67 94" stroke="#079B68" strokeWidth="3.5" strokeLinecap="round" />
-                {/* Bot Floating Arms */}
-                <ellipse cx="20" cy="85" rx="6" ry="12" fill="#E8F7EF" stroke="#C3E8D6" strokeWidth="2" />
-                <ellipse cx="100" cy="85" rx="6" ry="12" fill="#E8F7EF" stroke="#C3E8D6" strokeWidth="2" />
-              </g>
-            </svg>
+            <img
+              src={loginIllustration}
+              alt="WellWise AI Companion - User and Assistant"
+              className="login-art-image"
+            />
           </div>
         </div>
 

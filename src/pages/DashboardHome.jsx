@@ -14,6 +14,7 @@ import {
   Globe,
   Settings,
   ChevronRight,
+  ChevronDown,
   Calendar,
   CheckCircle2,
   Heart,
@@ -81,93 +82,161 @@ export default function DashboardHome() {
     loadDashboardData();
   }, [user?.id]);
 
-  // Main 12 Healthcare Feature Cards (matching reference image 2)
-  const featureCards = [
+  // Grouped 12 Healthcare Features into Foldable Categories (Matching Sidebar)
+  const featureGroups = [
     {
-      title: "AI Health Assistant",
-      desc: "Ask general health questions in your language.",
-      path: "/assistant",
-      icon: Bot,
-      color: "teal",
+      group: "CARE",
+      tagline: "AI assistant, voice triage & doctor visit summary",
+      cards: [
+        {
+          title: "AI Health Assistant",
+          desc: "Ask general health questions in your language.",
+          path: "/assistant",
+          icon: Bot,
+          color: "teal",
+        },
+        {
+          title: "Voice Assistant",
+          desc: "Speak instead of typing and listen to answers.",
+          path: "/voice",
+          icon: Mic,
+          color: "teal",
+        },
+        {
+          title: "Voice-to-Doctor Passport",
+          desc: "Describe symptoms, confirm and get a visit summary.",
+          path: "/doctor-passport",
+          icon: FileText,
+          color: "teal",
+        },
+      ],
     },
     {
-      title: "Voice Assistant",
-      desc: "Speak instead of typing and listen to answers.",
-      path: "/voice",
-      icon: Mic,
-      color: "teal",
+      group: "MY HEALTH",
+      tagline: "Health records, daily medicine & vaccination alerts",
+      cards: [
+        {
+          title: "Health Record Vault",
+          desc: "Save BP, heart rate and allergies. See your history.",
+          path: "/health-records",
+          icon: FolderLock,
+          color: "teal",
+        },
+        {
+          title: "Medicine Reminders",
+          desc: "Enter your prescribed schedule. See what is next.",
+          path: "/medicine-reminders",
+          icon: Pill,
+          color: "teal",
+        },
+        {
+          title: "Vaccination Info",
+          desc: "General information plus your own records.",
+          path: "/vaccination",
+          icon: Syringe,
+          color: "teal",
+        },
+      ],
     },
     {
-      title: "Voice-to-Doctor Passport",
-      desc: "Describe symptoms, confirm and get a visit summary.",
-      path: "/doctor-passport",
-      icon: FileText,
-      color: "teal",
+      group: "FIND HELP",
+      tagline: "Nearby hospitals map & emergency helplines",
+      cards: [
+        {
+          title: "Nearby Hospitals",
+          desc: "Find care near you and get directions.",
+          path: "/hospitals",
+          icon: Hospital,
+          color: "teal",
+        },
+        {
+          title: "Emergency Assistance",
+          desc: "Call 112 and read first-aid guidance.",
+          path: "/emergency",
+          icon: Siren,
+          color: "coral",
+        },
+      ],
     },
     {
-      title: "Health Record Vault",
-      desc: "Save BP, heart rate and allergies. See your history.",
-      path: "/health-records",
-      icon: FolderLock,
-      color: "teal",
+      group: "LEARN & CONNECT",
+      tagline: "Educational health library & WhatsApp chatbot",
+      cards: [
+        {
+          title: "Health Library",
+          desc: "Search articles and bookmark your favourites.",
+          path: "/library",
+          icon: BookOpen,
+          color: "teal",
+        },
+        {
+          title: "WhatsApp Companion",
+          desc: "Continue your chat on WhatsApp.",
+          path: "/whatsapp",
+          icon: MessageSquare,
+          color: "teal",
+        },
+      ],
     },
     {
-      title: "Medicine Reminders",
-      desc: "Enter your prescribed schedule. See what is next.",
-      path: "/medicine-reminders",
-      icon: Pill,
-      color: "teal",
-    },
-    {
-      title: "Vaccination Info",
-      desc: "General information plus your own records.",
-      path: "/vaccination",
-      icon: Syringe,
-      color: "teal",
-    },
-    {
-      title: "Nearby Hospitals",
-      desc: "Find care near you and get directions.",
-      path: "/hospitals",
-      icon: Hospital,
-      color: "teal",
-    },
-    {
-      title: "Emergency Assistance",
-      desc: "Call 112 and read first-aid guidance.",
-      path: "/emergency",
-      icon: Siren,
-      color: "coral",
-    },
-    {
-      title: "Health Library",
-      desc: "Search articles and bookmark your favourites.",
-      path: "/library",
-      icon: BookOpen,
-      color: "teal",
-    },
-    {
-      title: "WhatsApp Companion",
-      desc: "Continue your chat on WhatsApp.",
-      path: "/whatsapp",
-      icon: MessageSquare,
-      color: "teal",
-    },
-    {
-      title: "Multilingual Support",
-      desc: "English, मराठी, हिन्दी and ಕನ್ನಡ.",
-      path: "/multilingual",
-      icon: Globe,
-      color: "teal",
-    },
-    {
-      title: "Profile & Settings",
-      desc: "Your name, language and preferences.",
-      path: "/profile",
-      icon: Settings,
-      color: "teal",
+      group: "ACCOUNT",
+      tagline: "Language customization & account settings",
+      cards: [
+        {
+          title: "Multilingual Support",
+          desc: "English, मराठी, हिन्दी and ಕನ್ನಡ.",
+          path: "/multilingual",
+          icon: Globe,
+          color: "teal",
+        },
+        {
+          title: "Profile & Settings",
+          desc: "Your name, language and preferences.",
+          path: "/profile",
+          icon: Settings,
+          color: "teal",
+        },
+      ],
     },
   ];
+
+  // Accordion state to fold/unfold categories in main dashboard
+  const [openSections, setOpenSections] = useState({
+    CARE: true,
+    "MY HEALTH": true,
+    "FIND HELP": true,
+    "LEARN & CONNECT": true,
+    ACCOUNT: true,
+  });
+
+  const toggleSection = (group) => {
+    setOpenSections((prev) => ({
+      ...prev,
+      [group]: !prev[group],
+    }));
+  };
+
+  const collapseAll = () => {
+    setOpenSections({
+      CARE: false,
+      "MY HEALTH": false,
+      "FIND HELP": false,
+      "LEARN & CONNECT": false,
+      ACCOUNT: false,
+    });
+  };
+
+  const expandAll = () => {
+    setOpenSections({
+      CARE: true,
+      "MY HEALTH": true,
+      "FIND HELP": true,
+      "LEARN & CONNECT": true,
+      ACCOUNT: true,
+    });
+  };
+
+  const allCollapsed = Object.values(openSections).every((v) => !v);
 
   return (
     <div className="dashboard-content-layout">
@@ -243,21 +312,76 @@ export default function DashboardHome() {
           </Link>
         </div>
 
-        {/* Main Grid of 12 Healthcare Feature Cards */}
-        <div className="features-card-grid">
-          {featureCards.map((card) => {
-            const Icon = card.icon;
+        {/* Healthcare Features Area with Foldable Controls */}
+        <div className="dashboard-features-header-row">
+          <div className="features-header-title">
+            <h2>Healthcare Features</h2>
+            <span className="features-badge-count">12 tools in 5 foldable sections</span>
+          </div>
+          <button
+            type="button"
+            className="fold-all-toggle-btn"
+            onClick={allCollapsed ? expandAll : collapseAll}
+          >
+            {allCollapsed ? "Expand All ⌵" : "Fold All ⌃"}
+          </button>
+        </div>
+
+        {/* Foldable Feature Categories (Like Sidebar) */}
+        <div className="foldable-categories-container">
+          {featureGroups.map((group) => {
+            const isOpen = openSections[group.group] !== false;
             return (
-              <Link key={card.title} to={card.path} className="feature-grid-card">
-                <div className={`feature-icon-box ${card.color === "coral" ? "coral-box" : "mint-box"}`}>
-                  <Icon size={22} className={card.color === "coral" ? "icon-coral" : "icon-green"} />
-                </div>
-                <div className="feature-text-box">
-                  <h3 className="feature-card-title">{card.title}</h3>
-                  <p className="feature-card-desc">{card.desc}</p>
-                </div>
-                <ChevronRight size={18} className="feature-card-chevron" />
-              </Link>
+              <div key={group.group} className="foldable-category-section">
+                <button
+                  type="button"
+                  className="category-foldable-header"
+                  onClick={() => toggleSection(group.group)}
+                  aria-expanded={isOpen}
+                  title={isOpen ? `Fold ${group.group} section` : `Expand ${group.group} section`}
+                >
+                  <div className="category-header-left">
+                    <span className="category-indicator-dot" />
+                    <div>
+                      <h3 className="category-group-name">{group.group}</h3>
+                      <p className="category-tagline">{group.tagline}</p>
+                    </div>
+                  </div>
+                  <div className="category-header-right">
+                    <span className="category-count-pill">{group.cards.length} features</span>
+                    <span className={`category-chevron-icon ${isOpen ? "open" : "folded"}`}>
+                      <ChevronDown size={18} />
+                    </span>
+                  </div>
+                </button>
+
+                {isOpen && (
+                  <div className="features-card-grid">
+                    {group.cards.map((card) => {
+                      const Icon = card.icon;
+                      return (
+                        <Link key={card.title} to={card.path} className="feature-grid-card">
+                          <div
+                            className={`feature-icon-box ${
+                              card.color === "coral" ? "coral-box" : "mint-box"
+                            }`}
+                          >
+                            <Icon
+                              size={22}
+                              className={card.color === "coral" ? "icon-coral" : "icon-green"}
+                            />
+                          </div>
+                          <div className="feature-text-box">
+                            <h4 className="feature-card-title">{card.title}</h4>
+                            <p className="feature-card-desc">{card.desc}</p>
+                          </div>
+                          <ChevronRight size={18} className="feature-card-chevron" />
+                        </Link>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>

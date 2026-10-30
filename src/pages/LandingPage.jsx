@@ -144,6 +144,11 @@ export default function LandingPage() {
           </nav>
 
           <div className="landing-header-cta-group">
+            {!user && (
+              <Link to="/login" className="nav-menu-link header-signin-link">
+                Sign In
+              </Link>
+            )}
             <Link
               to={user ? "/dashboard" : "/login"}
               className="button button-dashboard-pill"

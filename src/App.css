@@ -943,8 +943,36 @@
   text-transform: uppercase;
 }
 
+.sidebar-group-header-btn {
+  width: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+  border-radius: var(--radius-sm);
+}
+
+.sidebar-group-header-btn:hover {
+  color: var(--primary-green);
+  background: rgba(7, 155, 104, 0.05);
+}
+
+.sidebar-group-header-btn:hover .group-chevron {
+  color: var(--primary-green);
+}
+
 .group-chevron {
   color: #92B9A6;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group-chevron.open {
+  transform: rotate(0deg);
+}
+
+.group-chevron.folded {
+  transform: rotate(-90deg);
 }
 
 .sidebar-group-items {
@@ -1424,6 +1452,146 @@
 .summary-pill-chevron {
   color: #92B9A6;
   flex-shrink: 0;
+}
+
+/* Healthcare Features Area with Foldable Categories */
+.dashboard-features-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+  margin-bottom: 16px;
+  padding: 0 4px;
+}
+
+.features-header-title {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.features-header-title h2 {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--dark-teal);
+  letter-spacing: -0.4px;
+}
+
+.features-badge-count {
+  font-size: 12px;
+  color: var(--body-text);
+  background: var(--soft-mint);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+}
+
+.fold-all-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--soft-mint-border);
+  color: var(--primary-green);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fold-all-toggle-btn:hover {
+  background: var(--soft-mint);
+  border-color: var(--primary-green);
+}
+
+.foldable-categories-container {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.foldable-category-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.category-foldable-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(232, 247, 239, 0.45);
+  border: 1px solid rgba(7, 155, 104, 0.12);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.category-foldable-header:hover {
+  background: rgba(232, 247, 239, 0.85);
+  border-color: rgba(7, 155, 104, 0.25);
+}
+
+.category-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.category-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary-green);
+  box-shadow: 0 0 6px rgba(7, 155, 104, 0.4);
+}
+
+.category-group-name {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--dark-teal);
+  margin: 0;
+}
+
+.category-tagline {
+  font-size: 11px;
+  color: var(--body-text);
+  margin: 1px 0 0;
+}
+
+.category-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-count-pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: #38705F;
+  background: #FFFFFF;
+  border: 1px solid rgba(7, 155, 104, 0.15);
+  padding: 3px 8px;
+  border-radius: 8px;
+}
+
+.category-chevron-icon {
+  color: var(--primary-green);
+  display: grid;
+  place-items: center;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-chevron-icon.open {
+  transform: rotate(0deg);
+}
+
+.category-chevron-icon.folded {
+  transform: rotate(-90deg);
 }
 
 /* 12 Feature Cards Grid (Matches Reference Image 2) */
@@ -2739,11 +2907,15 @@
   position: absolute;
   top: 24px;
   right: 36px;
-  font-family: cursive, sans-serif;
-  font-size: 15px;
+  font-family: 'Caveat', 'Dancing Script', 'Segoe Print', cursive, sans-serif;
+  font-size: 18px;
   font-weight: 700;
-  color: var(--primary-green);
-  opacity: 0.85;
+  color: #079B68;
+  opacity: 0.9;
+  transform: rotate(3deg);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .login-content-grid {
@@ -2790,68 +2962,82 @@
 .login-features-2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px 20px;
-  max-width: 500px;
-  margin-bottom: 24px;
+  gap: 16px 24px;
+  max-width: 520px;
+  margin-bottom: 20px;
+}
+
+.login-features-subcol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .login-feat-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .login-feat-icon {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background: var(--soft-mint);
-  color: var(--primary-green);
   display: grid;
   place-items: center;
   flex-shrink: 0;
 }
 
+.login-feat-icon.icon-green {
+  background: #E8F7EF;
+  color: #079B68;
+}
+
+.login-feat-icon.icon-blue {
+  background: #E0F2FE;
+  color: #0284C7;
+}
+
 .login-feat-item strong {
   display: block;
-  font-size: 13px;
+  font-size: 13.5px;
+  font-weight: 700;
   color: var(--dark-teal);
 }
 
 .login-feat-item small {
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--body-text);
 }
 
 .handwritten-tagline {
-  margin: 10px 0 16px;
+  margin: 12px 0 16px;
   display: inline-block;
 }
 
-.handwritten-tagline span {
-  font-family: cursive, sans-serif;
-  font-size: 15px;
+.handwritten-tagline .script-font {
+  font-family: 'Caveat', 'Dancing Script', 'Segoe Print', cursive, sans-serif;
+  font-size: 18px;
   font-weight: 700;
-  color: #104B50;
+  color: #079B68;
   display: block;
-}
-
-.underline-wave {
-  width: 140px;
-  height: 10px;
-  margin-top: 2px;
+  line-height: 1.25;
+  transform: rotate(-2deg);
 }
 
 .login-illustration-stage {
   position: relative;
   width: 100%;
-  max-width: 460px;
-  height: 220px;
+  max-width: 490px;
+  margin-top: 4px;
 }
 
-.health-bot-svg {
+.login-art-image {
   width: 100%;
-  height: 100%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  border-radius: 12px;
 }
 
 .speech-bubble {
@@ -2894,14 +3080,14 @@
   border: 1px solid #C7D2FE;
 }
 
-/* Right Column: Floating Auth Card */
+/* Right Column: Floating Auth Card (Matches Reference Image Exactly) */
 .auth-floating-card {
   background: var(--white);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-lg);
-  padding: 36px 32px;
-  box-shadow: 0 16px 48px rgba(16, 75, 80, 0.08);
-  max-width: 440px;
+  border: 1px solid rgba(16, 75, 80, 0.08);
+  border-radius: 28px;
+  padding: 38px 36px 32px;
+  box-shadow: 0 20px 60px rgba(16, 75, 80, 0.08);
+  max-width: 460px;
   width: 100%;
   margin: 0 auto;
 }
@@ -2909,45 +3095,45 @@
 .card-top-emblem {
   display: flex;
   justify-content: center;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .auth-emblem-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
   background-color: var(--primary-green);
   color: var(--white);
   display: grid;
   place-items: center;
-  box-shadow: 0 6px 16px rgba(7, 155, 104, 0.28);
+  box-shadow: 0 8px 20px rgba(7, 155, 104, 0.28);
 }
 
 .auth-header-text {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .auth-header-text h2 {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 800;
   color: var(--dark-teal);
-  letter-spacing: -0.5px;
+  letter-spacing: -0.6px;
 }
 
 .auth-sub-desc {
-  font-size: 13.5px;
+  font-size: 14px;
   color: var(--body-text);
   margin-top: 4px;
 }
 
 .auth-priority-tag {
   display: block;
-  font-size: 11px;
-  color: var(--primary-green);
-  font-weight: 600;
+  font-size: 12px;
+  color: var(--body-text);
+  opacity: 0.85;
   margin-top: 4px;
-  font-style: italic;
+  font-weight: 500;
 }
 
 .auth-input-group {
@@ -2956,7 +3142,7 @@
 
 .auth-input-group label {
   display: block;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--dark-teal);
   margin-bottom: 6px;
@@ -2977,11 +3163,11 @@
 
 .auth-input-wrap input {
   width: 100%;
-  padding: 11px 40px 11px 42px;
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
-  background-color: #FAFCFA;
-  font-size: 13.5px;
+  padding: 13px 40px 13px 44px;
+  border: 1px solid #D1EADE;
+  border-radius: 12px;
+  background-color: #FFFFFF;
+  font-size: 14px;
   color: var(--dark-teal);
   outline: none;
   transition: all 0.2s ease;
@@ -2990,12 +3176,12 @@
 .auth-input-wrap input:focus {
   border-color: var(--primary-green);
   background-color: var(--white);
-  box-shadow: 0 0 0 3px rgba(7, 155, 104, 0.12);
+  box-shadow: 0 0 0 3px rgba(7, 155, 104, 0.15);
 }
 
 .eye-toggle-btn {
   position: absolute;
-  right: 12px;
+  right: 14px;
   color: #7DA698;
   display: grid;
   place-items: center;
@@ -3008,12 +3194,12 @@
 .forgot-password-row {
   display: flex;
   justify-content: flex-end;
-  margin-top: -6px;
-  margin-bottom: 16px;
+  margin-top: 6px;
+  margin-bottom: 18px;
 }
 
 .forgot-link-btn {
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--primary-green);
 }
@@ -3024,56 +3210,62 @@
 
 .auth-submit-btn {
   width: 100%;
-  padding: 12px 20px;
-  font-size: 14.5px;
+  padding: 13px 20px;
+  font-size: 15px;
   font-weight: 700;
-  border-radius: var(--radius-full);
-  margin-top: 8px;
+  border-radius: 12px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .auth-divider-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 20px 0 16px;
+  margin: 22px 0 18px;
 }
 
 .divider-line {
   flex-grow: 1;
   height: 1px;
-  background-color: var(--divider);
+  background-color: #E2E8F0;
 }
 
 .divider-text {
   font-size: 11px;
   font-weight: 700;
-  color: #92B9A6;
+  color: #94A3B8;
+  letter-spacing: 0.5px;
 }
 
 .social-auth-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .social-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--card-border);
+  gap: 8px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
   background: var(--white);
   color: var(--dark-teal);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   transition: all 0.15s ease;
+  white-space: nowrap;
 }
 
 .social-btn:hover {
-  background: var(--light-bg);
-  border-color: var(--soft-mint-border);
+  background: #F8FAFC;
+  border-color: #CBD5E1;
 }
 
 .auth-switch-mode {
