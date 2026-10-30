@@ -101,29 +101,16 @@ Essential Rules:
 
     // 1. Try Gemini if configured
     if (geminiKey) {
-      try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiKey}`;
-        const contents = messages.map((m) => ({
-          role: m.role === "assistant" ? "model" : "user",
-          parts: [{ text: m.content || m.text || "" }]
-        }));
+      const geminiModels = ["gemini-3.5-flash", "gemini-3.8-flash", "gemini-flash-latest", "gemini-2.5-flash"];
+      const contents = messages.map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: m.content || m.text || "" }]
+      }));
 
-        let response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            systemInstruction: { parts: [{ text: systemPrompt }] },
-            contents,
-            generationConfig: {
-              maxOutputTokens: 800,
-              temperature: 0.3,
-            }
-          })
-        });
-
-        if (!response.ok && response.status === 404) {
-          const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`;
-          response = await fetch(fallbackUrl, {
+      for (const model of geminiModels) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${geminiKey}`;
+          const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -135,15 +122,19 @@ Essential Rules:
               }
             })
           });
-        }
 
-        if (response.ok) {
-          const data = await response.json();
-          replyText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (replyText) providerUsed = "gemini";
+          if (response.ok) {
+            const data = await response.json();
+            const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+            if (text) {
+              replyText = text;
+              providerUsed = `gemini (${model})`;
+              break;
+            }
+          }
+        } catch (geminiErr) {
+          console.warn(`Gemini ${model} fetch failed:`, geminiErr.message);
         }
-      } catch (geminiErr) {
-        console.warn("Gemini fetch failed, attempting OpenAI fallback:", geminiErr.message);
       }
     }
 
