@@ -1,41 +1,72 @@
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Ctx, useLS } from './store'
-import { F } from './data'
-import Shell from './components/Shell'
-import Landing from './pages/Landing'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import Assistant from './pages/Assistant'
-import Voice from './pages/Voice'
-import Passport from './pages/Passport'
-import Vault from './pages/Vault'
-import Reminders from './pages/Reminders'
-import Vaccines from './pages/Vaccines'
-import Hospitals from './pages/Hospitals'
-import Emergency from './pages/Emergency'
-import Library from './pages/Library'
-import WhatsApp from './pages/WhatsApp'
-import Languages from './pages/Languages'
-import Profile from './pages/Profile'
+// ==============================================================================
+// WellWise AI — Application Router & Global Context Providers
+// ==============================================================================
 
-const PG = { assistant: Assistant, voice: Voice, passport: Passport, vault: Vault, reminders: Reminders, vaccines: Vaccines, hospitals: Hospitals, emergency: Emergency, library: Library, whatsapp: WhatsApp, languages: Languages, profile: Profile }
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { LanguageProvider } from "./context/LanguageContext.jsx";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
+
+// Pages
+import LandingPage from "./pages/LandingPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
+import DashboardLayout from "./pages/DashboardLayout.jsx";
+import DashboardHome from "./pages/DashboardHome.jsx";
+import AssistantPage from "./pages/AssistantPage.jsx";
+import VoicePage from "./pages/VoicePage.jsx";
+import DoctorPassportPage from "./pages/DoctorPassportPage.jsx";
+import HealthRecordsPage from "./pages/HealthRecordsPage.jsx";
+import MedicineRemindersPage from "./pages/MedicineRemindersPage.jsx";
+import VaccinationPage from "./pages/VaccinationPage.jsx";
+import HospitalsPage from "./pages/HospitalsPage.jsx";
+import EmergencyPage from "./pages/EmergencyPage.jsx";
+import LibraryPage from "./pages/LibraryPage.jsx";
+import WhatsAppPage from "./pages/WhatsAppPage.jsx";
+import MultilingualPage from "./pages/MultilingualPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
+
+import "./App.css";
 
 export default function App() {
-  const [user, setUser] = useLS('user', null)
-  const [lang, setLang] = useLS('lang', 'en')
   return (
-    <Ctx.Provider value={{ user, setUser, lang, setLang }}>
-      <HashRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
-          <Route element={user ? <Shell /> : <Navigate to="/login" replace />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            {F.map((f) => { const C = PG[f.id]; return <Route key={f.id} path={'/' + f.id} element={<C />} /> })}
-          </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </HashRouter>
-    </Ctx.Provider>
-  )
+    <LanguageProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public Landing & Authentication */}
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+
+            {/* Protected Dashboard & 12 Feature Routes */}
+            <Route
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="/dashboard" element={<DashboardHome />} />
+              <Route path="/assistant" element={<AssistantPage />} />
+              <Route path="/voice" element={<VoicePage />} />
+              <Route path="/doctor-passport" element={<DoctorPassportPage />} />
+              <Route path="/health-records" element={<HealthRecordsPage />} />
+              <Route path="/medicine-reminders" element={<MedicineRemindersPage />} />
+              <Route path="/vaccination" element={<VaccinationPage />} />
+              <Route path="/hospitals" element={<HospitalsPage />} />
+              <Route path="/emergency" element={<EmergencyPage />} />
+              <Route path="/library" element={<LibraryPage />} />
+              <Route path="/whatsapp" element={<WhatsAppPage />} />
+              <Route path="/multilingual" element={<MultilingualPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/settings" element={<SettingsPage />} />
+            </Route>
+
+            {/* Catch-all redirect to Home */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </LanguageProvider>
+  );
 }
